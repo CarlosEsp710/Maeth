@@ -40,4 +40,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function patientProfile()
+    {
+        return $this->hasOne(PatientProfile::class);
+    }
+
+    public function nutritionistProfile()
+    {
+        return $this->hasOne(NutritionistProfile::class);
+    }
 }
