@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Nutritionists;
 
 use App\Http\Controllers\Controller;
 use App\Models\NutritionistProfile;
-use Illuminate\Http\Request;
+use App\Http\Requests\NutritionistProfileRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class NutritionistProfileController extends Controller
 {
@@ -19,27 +21,6 @@ class NutritionistProfileController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\NutritionistProfile  $nutritionistProfile
@@ -47,7 +28,7 @@ class NutritionistProfileController extends Controller
      */
     public function show(NutritionistProfile $nutritionistProfile)
     {
-        //
+        return view('nutritionists.show', compact('nutritionistProfile'));
     }
 
     /**
@@ -58,7 +39,7 @@ class NutritionistProfileController extends Controller
      */
     public function edit(NutritionistProfile $nutritionistProfile)
     {
-        //
+        return view('nutritionists.edit', compact('nutritionistProfile'));
     }
 
     /**
@@ -68,9 +49,18 @@ class NutritionistProfileController extends Controller
      * @param  \App\Models\NutritionistProfile  $nutritionistProfile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, NutritionistProfile $nutritionistProfile)
+    public function update(NutritionistProfileRequest $request, NutritionistProfile $nutritionistProfile)
     {
-        //
+        $nutritionistProfile->update($request->all());
+
+        if ($request->file('curriculum')) {
+            Storage::disk('public')->delete($nutritionistProfile->curriculum);
+            $nutritionistProfile->curriculum = $request->file('curriculum')->store('curriculums', 'public');
+            $nutritionistProfile->save();
+        }
+
+        return redirect()->route('nutritionist.profile.show', $nutritionistProfile->id)
+            ->with('info', 'Perfil actualizado con éxito');
     }
 
     /**
@@ -81,6 +71,8 @@ class NutritionistProfileController extends Controller
      */
     public function destroy(NutritionistProfile $nutritionistProfile)
     {
-        //
+        $user = User::find($nutritionistProfile->user_id);
+        $user->delete();
+        return redirect()->route('home');
     }
 }

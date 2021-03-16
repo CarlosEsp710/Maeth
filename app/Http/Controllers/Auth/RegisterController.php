@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -79,6 +81,7 @@ class RegisterController extends Controller
             return $response;
         }
         $user->patientProfile()->save(\App\Models\PatientProfile::make());
+        $user->assignRole('Patient');
         return $request->wantsJson()
             ? new JsonResponse([], 201)
             : redirect($this->redirectPath());
@@ -92,13 +95,18 @@ class RegisterController extends Controller
      */
     public function registerNutritionist(Request $request)
     {
+        //dd($request);
         $this->nutritionistValidator($request->all())->validate();
         event(new Registered($user = $this->create($request->all())));
         $this->guard()->login($user);
         if ($response = $this->registered($request, $user)) {
             return $response;
         }
-        $user->patientProfile()->save(\App\Models\NutritionistProfile::factory()->make());
+        $user->patientProfile()->save(\App\Models\NutritionistProfile::make([
+            'identification_card' => $request->identification_card,
+            'curriculum' => $request->file('curriculum')->store('curriculums', 'public')
+        ]));
+        $user->assignRole('Nutritionist');
         return $request->wantsJson()
             ? new JsonResponse([], 201)
             : redirect($this->redirectPath());
@@ -131,6 +139,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'identification_card' => ['required', 'min:10', 'unique:nutritionist_profiles'],
+            'curriculum' => ['required']
         ]);
     }
 

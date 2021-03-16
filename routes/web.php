@@ -6,8 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\HomeController;
-use App\Models\User;
-use Illuminate\Support\Facades\App;
+use App\Http\Controllers\Nutritionists\NutritionistProfileController;
+use App\Http\Controllers\Patients\PatientProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,3 +42,38 @@ Route::get('register.nutritionist', [RegisterController::class, 'showRegistratio
 Route::post('register.nutritionist', [RegisterController::class, 'registerNutritionist']);
 // View index
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Routes permissions
+Route::middleware(['auth'])->group(function () {
+    // Patient profile
+    Route::get('patient.profile.index', [PatientProfileController::class, 'index'])
+        ->name('patient.profile.index')
+        ->middleware('permission:patient.profile.index');
+    Route::get('patient.profile.show/{patientProfile}', [PatientProfileController::class, 'show'])
+        ->name('patient.profile.show')
+        ->middleware('permission:patient.profile.show');
+    Route::get('patient.profile.edit/{patientProfile}', [PatientProfileController::class, 'edit'])
+        ->name('patient.profile.edit')
+        ->middleware('permission:patient.profile.edit');
+    Route::put('patient.profile.update/{patientProfile}', [PatientProfileController::class, 'update'])
+        ->name('patient.profile.update')
+        ->middleware('permission:patient.profile.edit');
+    Route::delete('patient.profile.destroy/{patientProfile}', [PatientProfileController::class, 'destroy'])
+        ->name('patient.profile.destroy')
+        ->middleware('permission:patient.profile.destroy');
+    // Nutritionist profile
+    Route::get('nutritionist.profile.index', [NutritionistProfileController::class, 'index'])
+        ->name('nutritionist.profile.index')
+        ->middleware('permission:nutritionist.profile.index');
+    Route::get('nutritionist.profile.show/{nutritionistProfile}', [NutritionistProfileController::class, 'show'])
+        ->name('nutritionist.profile.show')
+        ->middleware('permission:nutritionist.profile.show');
+    Route::get('nutritionist.profile.edit/{nutritionistProfile}', [NutritionistProfileController::class, 'edit'])
+        ->name('nutritionist.profile.edit')
+        ->middleware('permission:nutritionist.profile.edit');
+    Route::put('nutritionist.profile.update/{nutritionistProfile}', [NutritionistProfileController::class, 'update'])
+        ->name('nutritionist.profile.update')
+        ->middleware('permission:nutritionist.profile.edit');
+    Route::delete('nutritionist.profile.destroy/{nutritionistProfile}', [NutritionistProfileController::class, 'destroy'])
+        ->name('nutritionist.profile.destroy')
+        ->middleware('permission:nutritionist.profile.destroy');
+});

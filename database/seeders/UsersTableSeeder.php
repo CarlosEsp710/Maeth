@@ -25,6 +25,12 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('secret')
         ])->patientProfile()->save(\App\Models\PatientProfile::make());
 
+        \App\Models\User::factory()->create([
+            'name' => 'Nutriólogo ',
+            'email' => 'n@nutritionist.com',
+            'password' => bcrypt('secret')
+        ])->patientProfile()->save(\App\Models\NutritionistProfile::factory()->make());
+
         \App\Models\User::factory(10)->create()
             ->each(function ($user) {
                 $profile = $user->nutritionistProfile()->save(\App\Models\NutritionistProfile::factory()->make());

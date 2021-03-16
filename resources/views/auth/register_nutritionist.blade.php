@@ -8,7 +8,7 @@
                     <div class="card-header">Register nutritionist</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('register.nutritionist') }}">
+                        <form method="POST" action="{{ route('register.nutritionist') }}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="form-group row">
@@ -66,6 +66,41 @@
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control"
                                         name="password_confirmation" required autocomplete="new-password">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="identification_card"
+                                    class="col-md-4 col-form-label text-md-right">{{ __('Identification Card') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="identification_card" type="text"
+                                        class="form-control @error('identification_card') is-invalid @enderror"
+                                        name="identification_card" value="{{ old('identification_card') }}" required
+                                        autocomplete="identification_card" autofocus>
+
+                                    @error('identification_card')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="curriculum"
+                                    class="col-md-4 col-form-label text-md-right">{{ __('Curriculum') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="curriculum" type="file"
+                                        class="form-control @error('curriculum') is-invalid @enderror" name="curriculum"
+                                        value="{{ old('curriculum') }}" required autocomplete="curriculum" autofocus>
+
+                                    @error('curriculum')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 

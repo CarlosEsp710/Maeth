@@ -20,8 +20,8 @@ class CreatePatientProfilesTable extends Migration
             $table->string('phone_number')->nullable();
             $table->string('occupation')->nullable();
             $table->string('scholarship')->nullable();
-            $table->bigInteger('weight')->nullable();
-            $table->float('height')->nullable();
+            $table->float('weight')->nullable();
+            $table->bigInteger('height')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
 

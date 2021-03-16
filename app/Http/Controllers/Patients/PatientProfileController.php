@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Patients;
 
 use App\Http\Controllers\Controller;
 use App\Models\PatientProfile;
-use Illuminate\Http\Request;
+use App\Http\Requests\PatientProfileRequest;
+use App\Models\User;
 
 class PatientProfileController extends Controller
 {
@@ -15,28 +16,6 @@ class PatientProfileController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -47,7 +26,7 @@ class PatientProfileController extends Controller
      */
     public function show(PatientProfile $patientProfile)
     {
-        //
+        return view('patients.show', compact('patientProfile'));
     }
 
     /**
@@ -58,7 +37,7 @@ class PatientProfileController extends Controller
      */
     public function edit(PatientProfile $patientProfile)
     {
-        //
+        return view('patients.edit', compact('patientProfile'));
     }
 
     /**
@@ -68,9 +47,12 @@ class PatientProfileController extends Controller
      * @param  \App\Models\PatientProfile  $patientProfile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PatientProfile $patientProfile)
+    public function update(PatientProfileRequest $request, PatientProfile $patientProfile)
     {
-        //
+        $patientProfile->update($request->all());
+
+        return redirect()->route('patient.profile.show', $patientProfile->id)
+            ->with('info', 'Perfil actualizado con éxito');
     }
 
     /**
@@ -79,8 +61,12 @@ class PatientProfileController extends Controller
      * @param  \App\Models\PatientProfile  $patientProfile
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PatientProfile $patientProfile)
+    public function destroy($patientProfile)
     {
-        //
+        $patientProfile = PatientProfile::find($patientProfile);
+        $user = User::find($patientProfile->id);
+        $user->delete();
+
+        return redirect()->route('home');
     }
 }
