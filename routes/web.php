@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Nutritionists\MyPatientsController;
+use App\Http\Controllers\Patients\MyNutritionistController;
 use App\Http\Controllers\Nutritionists\NutritionistProfileController;
 use App\Http\Controllers\Patients\PatientProfileController;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +62,16 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('patient.profile.destroy/{patientProfile}', [PatientProfileController::class, 'destroy'])
         ->name('patient.profile.destroy')
         ->middleware('permission:patient.profile.destroy');
+    // Patient - MyNutritionist
+    Route::get('my_nutritionist.index/{patientProfile}', [MyNutritionistController::class, 'index'])
+        ->name('my_nutritionist')
+        ->middleware('permission:patient.my_nutritionist.index');
+    Route::get('my_nutritionist.show/{nutritionist}', [MyNutritionistController::class, 'show'])
+        ->name('my_nutritionist.show')
+        ->middleware('permission:patient.my_nutritionist.index');
+    Route::post('my_nutritionist.choose/{nutritionist}', [MyNutritionistController::class, 'choose'])
+        ->name('my_nutritionist.choose')
+        ->middleware('permission:patient.my_nutritionist.index');
     // Nutritionist profile
     Route::get('nutritionist.profile.index', [NutritionistProfileController::class, 'index'])
         ->name('nutritionist.profile.index')
@@ -76,4 +88,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('nutritionist.profile.destroy/{nutritionistProfile}', [NutritionistProfileController::class, 'destroy'])
         ->name('nutritionist.profile.destroy')
         ->middleware('permission:nutritionist.profile.destroy');
+    // Nutritionist - MyPatients
+    Route::get('my_patients.index/{nutritionistProfile}', [MyPatientsController::class, 'index'])
+        ->name('my_patients')
+        ->middleware('permission:nutritionist.my_patients.index');
 });

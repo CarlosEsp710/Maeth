@@ -12,6 +12,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     @livewireScripts
 
     <!-- Fonts -->
@@ -55,6 +56,22 @@
                                 </a>
                             </li>
                         @endcan
+                        @can('patient.my_nutritionist.index')
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    href="{{ route('my_nutritionist', auth()->user()->patientProfile->id) }}">
+                                    Mi nutriólgo
+                                </a>
+                            </li>
+                        @endcan
+                        @can('nutritionist.my_patients.index')
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    href="{{ route('my_patients', auth()->user()->nutritionistProfile->id) }}">
+                                    Mis pacientes
+                                </a>
+                            </li>
+                        @endcan
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -88,7 +105,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                            document.getElementById('logout-form').submit();">
+                                                                                                                            document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                @include('patients.partials.errors')
+                @include('patients.profile.partials.errors')
                 <div class="card">
                     <div class="card-header">Editar perfil</div>
                     <div class="card-body">
@@ -15,7 +15,7 @@
                         <hr>
                         <h5>Datos de perfil</h5>
                         {!! Form::model($patientProfile, ['route' => ['patient.profile.update', $patientProfile->id], 'method' => 'PUT']) !!}
-                        @include('patients.partials.form')
+                        @include('patients.profile.partials.form')
                         {!! Form::close() !!}
                     </div>
                 </div>

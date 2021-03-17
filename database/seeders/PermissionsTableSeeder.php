@@ -46,6 +46,10 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'nutritionist.profile.edit']);
         Permission::create(['name' => 'nutritionist.profile.show']);
         Permission::create(['name' => 'nutritionist.profile.destroy']);
+        // Patient - MyNutritionist
+        Permission::create(['name' => 'patient.my_nutritionist.index']);
+        // Nutritionist - MyPatients
+        Permission::create(['name' => 'nutritionist.my_patients.index']);
 
         /**
          * TODO
@@ -65,6 +69,8 @@ class PermissionsTableSeeder extends Seeder
             'patient.profile.edit',
             'patient.profile.show',
             'patient.profile.destroy',
+            //Patient - MyNutritionist
+            'patient.my_nutritionist.index'
         ]);
 
         $nutritionist = Role::create(['name' => 'Nutritionist']);
@@ -80,6 +86,8 @@ class PermissionsTableSeeder extends Seeder
             'nutritionist.profile.edit',
             'nutritionist.profile.show',
             'nutritionist.profile.destroy',
+            // Nutritionist - MyPatients
+            'nutritionist.my_patients.index'
         ]);
 
         $userPatient1 = User::find(1);

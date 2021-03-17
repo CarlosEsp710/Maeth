@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                @include('patients.partials.info')
+                @include('nutritionists.profile.partials.info')
                 <div class="card">
                     <div class="card-header">Perfil</div>
                     <div class="card-body">

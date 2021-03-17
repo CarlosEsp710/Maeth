@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                @include('patients.partials.info')
+                @include('patients.profile.partials.info')
                 <div class="card">
                     <div class="card-header">Perfil</div>
                     <div class="card-body">
@@ -33,14 +33,14 @@
                             <div class="col-3">
                                 @can('patient.profile.destroy')
                                     {!! Form::open(['route' => ['patient.profile.destroy', $patientProfile->id], 'method' => 'DELETE']) !!}
-                                    <button class="btn btn-sm btn-danger">Eliminar mi cuenta</button>
+                                    <button class="btn btn-sm btn-link">Eliminar mi cuenta</button>
                                     {!! Form::close() !!}
                                 @endcan
                             </div>
                             <div class="col">
                                 @can('patient.profile.edit')
                                     <a href="{{ route('patient.profile.edit', $patientProfile->id) }}"
-                                        class="btn btn-sm btn-info">Editar perfil</a>
+                                        class="btn btn-sm btn-link">Editar perfil</a>
                                 @endcan
                             </div>
                         </div>

@@ -16,7 +16,7 @@
                         <hr>
                         <h5>Datos de perfil</h5>
                         {!! Form::model($nutritionistProfile, ['route' => ['nutritionist.profile.update', $nutritionistProfile->id], 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
-                        @include('nutritionists.partials.form')
+                        @include('nutritionists.profile.partials.form')
                         {!! Form::close() !!}
                     </div>
                 </div>

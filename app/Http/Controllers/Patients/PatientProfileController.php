@@ -26,7 +26,7 @@ class PatientProfileController extends Controller
      */
     public function show(PatientProfile $patientProfile)
     {
-        return view('patients.show', compact('patientProfile'));
+        return view('patients.profile.show', compact('patientProfile'));
     }
 
     /**
@@ -37,7 +37,7 @@ class PatientProfileController extends Controller
      */
     public function edit(PatientProfile $patientProfile)
     {
-        return view('patients.edit', compact('patientProfile'));
+        return view('patients.profile.edit', compact('patientProfile'));
     }
 
     /**

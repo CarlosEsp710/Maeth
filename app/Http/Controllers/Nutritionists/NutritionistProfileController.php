@@ -28,7 +28,7 @@ class NutritionistProfileController extends Controller
      */
     public function show(NutritionistProfile $nutritionistProfile)
     {
-        return view('nutritionists.show', compact('nutritionistProfile'));
+        return view('nutritionists.profile.show', compact('nutritionistProfile'));
     }
 
     /**
@@ -39,7 +39,7 @@ class NutritionistProfileController extends Controller
      */
     public function edit(NutritionistProfile $nutritionistProfile)
     {
-        return view('nutritionists.edit', compact('nutritionistProfile'));
+        return view('nutritionists.profile.edit', compact('nutritionistProfile'));
     }
 
     /**
