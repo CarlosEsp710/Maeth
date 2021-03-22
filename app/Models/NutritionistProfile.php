@@ -21,4 +21,9 @@ class NutritionistProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function myPatients()
+    {
+        return $this->hasMany(NutritionistHasPatient::class);
+    }
 }

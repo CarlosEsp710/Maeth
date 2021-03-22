@@ -92,4 +92,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('my_patients.index/{nutritionistProfile}', [MyPatientsController::class, 'index'])
         ->name('my_patients')
         ->middleware('permission:nutritionist.my_patients.index');
+    Route::get('my_patients.show/{patientProfile}', [MyPatientsController::class, 'show'])
+        ->name('my_patient.show')
+        ->middleware('permission:nutritionist.my_patients.index');
+    Route::get('my_patients.conversation/{patientProfile}', [MyPatientsController::class, 'conversation'])
+        ->name('my_patient.conversation')
+        ->middleware('permission:nutritionist.my_patients.index');
 });
