@@ -6,10 +6,12 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MedicalHistory;
 use App\Http\Controllers\Nutritionists\MyPatientsController;
 use App\Http\Controllers\Patients\MyNutritionistController;
 use App\Http\Controllers\Nutritionists\NutritionistProfileController;
 use App\Http\Controllers\Patients\PatientProfileController;
+use App\Http\Controllers\Posts\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -98,4 +100,39 @@ Route::middleware(['auth'])->group(function () {
     Route::get('my_patients.conversation/{patientProfile}', [MyPatientsController::class, 'conversation'])
         ->name('my_patient.conversation')
         ->middleware('permission:nutritionist.my_patients.index');
+    // Patient - MedicalHistory
+    Route::get('medical_history.index/patientProfile', [MedicalHistory::class, 'index'])
+        ->name('medical_history.index')
+        ->middleware('permission:patient.medical_history.index');
+    Route::get('medical_history.create', [MedicalHistory::class, 'create'])
+        ->name('medical_history.create')
+        ->middleware('permission:patient.medical_history.index');
+    Route::post('medical_history.pdf', [MedicalHistory::class, 'exportPdf'])
+        ->name('medical_history.pdf')
+        ->middleware('permission:patient.medical_history.index');
+    // Blog
+    Route::get('posts', [PostController::class, 'posts'])
+        ->name('posts')
+        ->middleware('permission:posts.all');
+    Route::get('post/{post}', [PostController::class, 'post'])
+        ->name('post')
+        ->middleware('permission:posts.all');
+    Route::get('posts.index', [PostController::class, 'index'])
+        ->name('posts.index')
+        ->middleware('permission:posts.all');
+    Route::get('posts.create', [PostController::class, 'create'])
+        ->name('posts.create')
+        ->middleware('permission:posts.all');
+    Route::post('posts.store', [PostController::class, 'store'])
+        ->name('posts.store')
+        ->middleware('permission:posts.all');
+    Route::get('posts.edit/{post}', [PostController::class, 'edit'])
+        ->name('posts.edit')
+        ->middleware('permission:posts.all');
+    Route::put('posts.update/{post}', [PostController::class, 'update'])
+        ->name('posts.update')
+        ->middleware('permission:posts.all');
+    Route::delete('posts.destroy/{post}', [PostController::class, 'destroy'])
+        ->name('posts.destroy')
+        ->middleware('permission:posts.all');
 });

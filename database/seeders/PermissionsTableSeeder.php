@@ -19,23 +19,7 @@ class PermissionsTableSeeder extends Seeder
         // Permissions list
 
         // Blog - Posts
-        Permission::create(['name' => 'posts.index']);
-        Permission::create(['name' => 'posts.edit']);
-        Permission::create(['name' => 'posts.show']);
-        Permission::create(['name' => 'posts.create']);
-        Permission::create(['name' => 'posts.destroy']);
-        // Blog - Categories
-        Permission::create(['name' => 'categories.edit']);
-        Permission::create(['name' => 'categories.index']);
-        Permission::create(['name' => 'categories.show']);
-        Permission::create(['name' => 'categories.create']);
-        Permission::create(['name' => 'categories.destroy']);
-        // Blog - Tags
-        Permission::create(['name' => 'tags.index']);
-        Permission::create(['name' => 'tags.edit']);
-        Permission::create(['name' => 'tags.show']);
-        Permission::create(['name' => 'tags.create']);
-        Permission::create(['name' => 'tags.destroy']);
+        Permission::create(['name' => 'posts.all']);
         // Patient Profile
         Permission::create(['name' => 'patient.profile.index']);
         Permission::create(['name' => 'patient.profile.edit']);
@@ -50,6 +34,8 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'patient.my_nutritionist.index']);
         // Nutritionist - MyPatients
         Permission::create(['name' => 'nutritionist.my_patients.index']);
+        // Patient - Medical history
+        Permission::create(['name' => 'patient.medical_history.index']);
 
         /**
          * TODO
@@ -59,28 +45,22 @@ class PermissionsTableSeeder extends Seeder
         $patient = Role::create(['name' => 'Patient']);
         $patient->givePermissionTo([
             // Blog - Posts
-            'posts.index',
-            'posts.edit',
-            'posts.show',
-            'posts.create',
-            'posts.destroy',
+            'posts.all',
             // Patient Profile
             'patient.profile.index',
             'patient.profile.edit',
             'patient.profile.show',
             'patient.profile.destroy',
             //Patient - MyNutritionist
-            'patient.my_nutritionist.index'
+            'patient.my_nutritionist.index',
+            //Patient - MedicalHistory
+            'patient.medical_history.index'
         ]);
 
         $nutritionist = Role::create(['name' => 'Nutritionist']);
         $nutritionist->givePermissionTo([
             // Blog - Posts
-            'posts.index',
-            'posts.edit',
-            'posts.show',
-            'posts.create',
-            'posts.destroy',
+            'posts.all',
             // Nutritionist Profile
             'nutritionist.profile.index',
             'nutritionist.profile.edit',

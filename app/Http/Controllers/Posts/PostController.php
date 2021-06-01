@@ -3,11 +3,24 @@
 namespace App\Http\Controllers\Posts;
 
 use App\Http\Controllers\Controller;
-use App\Models\NutritionistProfile;
-use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
+    public function posts()
+    {
+        return view('posts.posts', [ //retornar Vista con parámetros
+            'posts' => Post::with('user')->latest()->paginate()
+        ]);
+    }
+
+    public function post(Post $post)
+    {
+        return view('posts.post', ['post' => $post]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +28,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::orderBy('id', 'DESC')
+            ->where('user_id', auth()->user()->id)
+            ->paginate();
+
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -25,7 +42,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -34,53 +51,59 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\NutritionistProfile  $nutritionistProfile
-     * @return \Illuminate\Http\Response
-     */
-    public function show(NutritionistProfile $nutritionistProfile)
-    {
-        //
+        $post = Post::create([
+            'user_id' => auth()->user()->id
+        ] + $request->all());
+        if ($request->file('file')) {
+            $post->image = $request->file('file')->store('posts', 'public');
+            $post->save();
+        }
+        //retornar
+        return back()->with('status', 'Creado con éxito');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\NutritionistProfile  $nutritionistProfile
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(NutritionistProfile $nutritionistProfile)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\NutritionistProfile  $nutritionistProfile
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, NutritionistProfile $nutritionistProfile)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        $post->update($request->all());
+
+        if ($request->file('file')) {
+            Storage::disk('public')->delete($post->image);
+            $post->image = $request->file('file')->store('posts', 'public');
+            $post->save();
+        }
+        return back()->with('status', 'Actualizado con éxito');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\NutritionistProfile  $nutritionistProfile
+     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(NutritionistProfile $nutritionistProfile)
+    public function destroy(Post $post)
     {
-        //
+        Storage::disk('public')->delete($post->image);
+        $post->delete();
+        return back()->with('status', 'Eliminado con éxito');
     }
 }
