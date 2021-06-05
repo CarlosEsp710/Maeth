@@ -9,7 +9,7 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th colspan="2">&nbsp;</th>
+                            <th colspan="3">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -17,12 +17,15 @@
                             <tr>
                                 <td>{{ $patient->name }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-link"
-                                        href="{{ route('my_patient.show', $patient->id) }}">Ver perfil</a>
+                                    <a class="btn btn-sm btn-link" href="{{ route('my_patient.show', $patient->id) }}">Ver
+                                        perfil</a>
                                 </td>
                                 <td>
                                     <a class="btn btn-sm btn-link"
                                         href="{{ route('my_patient.conversation', $patient->id) }}">Conversar</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-link" href="">Historias clínicas</a>
                                 </td>
                             </tr>
                         @endforeach

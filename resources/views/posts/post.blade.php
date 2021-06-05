@@ -10,12 +10,13 @@
                         <br>
                     @endif
                     <div class="card-body">
-                        <h5 class="card-title">{{ $post->title }}</h5>
+                        <h4 class="card-title">{{ $post->title }}</h4>
                         @if ($post->iframe)
                             <div class="embed-responsive embed-responsive-16by9">
                                 {!! $post->iframe !!}
                             </div>
                         @endif
+                        <br>
                         <p class="card-text">
                             {{ $post->body }}
                         </p>
